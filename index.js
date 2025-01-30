@@ -18,8 +18,19 @@ app.get("/produits", (req,res) => {
     res.json(produits);
 })
 
+// POST
+app.post("/produits", (req,res) => {
+    const newProduits = req.body;
+    if (!newProduits || !newProduits.id ||!newProduits.nom){
+        return res.status(400).json({message:'Invalid produits data'});
+    }
+    produits.push(newProduits);
+    res.status(200).json(produits);
+})
+// PUT
 
 // Démarrage du serveur
 app.listen(port, () => {
     console.log(`Le serveur est démarre sur http://localhost:${port}`);
 })
+

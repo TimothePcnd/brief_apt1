@@ -28,6 +28,28 @@ app.post("/produits", (req,res) => {
     res.status(200).json(produits);
 })
 // PUT
+app.put('/produits/:id', (request, response) => {
+    const id = parseInt(request.params.id);
+    const { nom, prix, quantite } = request.body
+
+    const produitID = produits.findIndex(produits => produits.id === id)
+    produits[produitID] = {id, nom, prix, quantite}
+    response.json(produits[produitID])
+});
+
+//DELETE
+app.delete('/produits/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = produits.findIndex(produit => produit.id === id);
+
+    if (index !== -1) {
+        produits.splice(index, 1);
+        return res.status(200).json({ message: "Produit supprimé avec succès", produits });
+    }
+
+    res.status(404).json({ message: "Produit non trouvé" });
+});
+
 
 // Démarrage du serveur
 app.listen(port, () => {
